@@ -1,9 +1,9 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Mealie Assistant API for GPT",
-    "version": "1.3.1",
-    "description": "API enrichie pour GPT avec liens directs vers l'interface Mealie."
+    "title": "Mealie GPT Assistant API (Household Edition)",
+    "version": "1.4.0",
+    "description": "API pour assistant GPT connect\u00e9e \u00e0 Mealie avec les endpoints /api/households."
   },
   "servers": [
     {
@@ -11,124 +11,108 @@
     }
   ],
   "paths": {
-    "/recipes": {
-      "get": {
-        "summary": "Liste les recettes",
-        "operationId": "listRecipes",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "search",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Liste des recettes",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "name": {
-                            "type": "string"
-                          },
-                          "slug": {
-                            "type": "string"
-                          },
-                          "description": {
-                            "type": "string"
-                          },
-                          "url": {
-                            "type": "string",
-                            "description": "URL vers la recette interne Mealie"
-                          }
-                        }
-                      }
-                    }
+    "/households/mealplans": {
+      "post": {
+        "summary": "Ajouter une recette au calendrier des repas",
+        "operationId": "addToMealplan",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-07-13"
+                  },
+                  "entryType": {
+                    "type": "string",
+                    "enum": [
+                      "breakfast",
+                      "lunch",
+                      "dinner",
+                      "snack"
+                    ]
+                  },
+                  "recipeId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "text": {
+                    "type": "string"
                   }
-                }
+                },
+                "required": [
+                  "date",
+                  "entryType",
+                  "recipeId"
+                ]
               }
             }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Recette ajout\u00e9e au calendrier"
+          },
+          "400": {
+            "description": "Mauvaise requ\u00eate"
+          },
+          "401": {
+            "description": "Non autoris\u00e9"
           }
         }
       }
     },
-    "/recipes/{slug}": {
-      "get": {
-        "summary": "Lire une recette compl\u00e8te",
-        "operationId": "getRecipe",
-        "parameters": [
-          {
-            "name": "slug",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "D\u00e9tails d'une recette",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string"
-                    },
-                    "description": {
-                      "type": "string"
-                    },
-                    "slug": {
-                      "type": "string"
-                    },
-                    "url": {
-                      "type": "string",
-                      "description": "URL vers la recette interne Mealie"
-                    },
-                    "recipeIngredients": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "note": {
-                            "type": "string"
-                          }
-                        }
-                      }
-                    },
-                    "recipeInstructions": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "text": {
-                            "type": "string"
-                          }
-                        }
-                      }
-                    }
+    "/households/shopping/items": {
+      "post": {
+        "summary": "Ajouter un ingr\u00e9dient \u00e0 la liste de courses",
+        "operationId": "addShoppingItem",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "quantity": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "note": {
+                    "type": "string",
+                    "example": "Riz basmati"
+                  },
+                  "isFood": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "disableAmount": {
+                    "type": "boolean",
+                    "default": false
                   }
-                }
+                },
+                "required": [
+                  "note"
+                ]
               }
             }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "\u00c9l\u00e9ment ajout\u00e9 \u00e0 la liste de courses"
+          },
+          "400": {
+            "description": "Requ\u00eate invalide"
+          },
+          "401": {
+            "description": "Non autoris\u00e9"
           }
         }
       }
