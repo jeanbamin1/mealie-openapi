@@ -1,0 +1,72 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Mealie API for GPT",
+    "version": "1.0.0",
+    "description": "API simplifi\u00e9e pour interagir avec Mealie depuis un GPT personnalis\u00e9."
+  },
+  "servers": [
+    {
+      "url": "https://mealie.aptitech.fr/api"
+    }
+  ],
+  "paths": {
+    "/recipes": {
+      "get": {
+        "summary": "Liste les recettes",
+        "description": "Retourne une liste pagin\u00e9e de recettes avec filtre optionnel.",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Nombre de recettes \u00e0 retourner",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Filtrer par mot-cl\u00e9",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liste des recettes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "slug": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
