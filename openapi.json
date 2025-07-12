@@ -1,9 +1,9 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Mealie GPT Assistant API (Household Edition)",
-    "version": "1.4.0",
-    "description": "API pour assistant GPT connect\u00e9e \u00e0 Mealie avec les endpoints /api/households."
+    "title": "Mealie GPT Assistant API (Complet)",
+    "version": "1.5.0",
+    "description": "Assistant GPT connect\u00e9 \u00e0 Mealie avec support des menus, listes de courses et recherche intelligente de recettes"
   },
   "servers": [
     {
@@ -59,12 +59,6 @@
         "responses": {
           "201": {
             "description": "Recette ajout\u00e9e au calendrier"
-          },
-          "400": {
-            "description": "Mauvaise requ\u00eate"
-          },
-          "401": {
-            "description": "Non autoris\u00e9"
           }
         }
       }
@@ -107,12 +101,54 @@
         "responses": {
           "201": {
             "description": "\u00c9l\u00e9ment ajout\u00e9 \u00e0 la liste de courses"
-          },
-          "400": {
-            "description": "Requ\u00eate invalide"
-          },
-          "401": {
-            "description": "Non autoris\u00e9"
+          }
+        }
+      }
+    },
+    "/recipes": {
+      "get": {
+        "summary": "Rechercher des recettes avec un mot-cl\u00e9",
+        "operationId": "searchRecipes",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Mot-cl\u00e9 \u00e0 rechercher dans les recettes (ex: thon)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liste des recettes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "slug": {
+                        "type": "string"
+                      },
+                      "url": {
+                        "type": "string",
+                        "description": "Lien interne vers la recette",
+                        "example": "https://mealie.aptitech.fr/recipe/riz-au-thon"
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
