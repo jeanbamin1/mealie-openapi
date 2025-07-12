@@ -1,9 +1,9 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Mealie API for GPT",
-    "version": "1.0.0",
-    "description": "API simplifi\u00e9e pour interagir avec Mealie depuis un GPT personnalis\u00e9."
+    "title": "Mealie Full API for GPT",
+    "version": "1.2.0",
+    "description": "API Mealie enrichie pour GPT : lecture de recette, shopping list, ajout aux menus."
   },
   "servers": [
     {
@@ -65,6 +65,160 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/recipes/{slug}": {
+      "get": {
+        "summary": "Lire une recette compl\u00e8te",
+        "operationId": "getRecipe",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "Slug unique de la recette",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "D\u00e9tails d'une recette",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "recipeIngredients": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "note": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "recipeInstructions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "text": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shopping-list/items": {
+      "post": {
+        "summary": "Ajouter un ingr\u00e9dient \u00e0 la liste de courses",
+        "operationId": "addItemToShoppingList",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "item": {
+                    "type": "string"
+                  },
+                  "category": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "item"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ingr\u00e9dient ajout\u00e9 avec succ\u00e8s"
+          }
+        }
+      }
+    },
+    "/meal-plans/{planId}/days/{dayId}/items": {
+      "post": {
+        "summary": "Ajouter une recette \u00e0 un menu",
+        "operationId": "addRecipeToMealPlan",
+        "parameters": [
+          {
+            "name": "planId",
+            "in": "path",
+            "required": true,
+            "description": "ID du plan de menu (meal plan)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dayId",
+            "in": "path",
+            "required": true,
+            "description": "ID du jour dans le meal plan (souvent un UUID ou une date)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "recipeId": {
+                    "type": "string"
+                  },
+                  "meal": {
+                    "type": "string",
+                    "enum": [
+                      "breakfast",
+                      "lunch",
+                      "dinner",
+                      "snack"
+                    ]
+                  },
+                  "servings": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "recipeId",
+                  "meal",
+                  "servings"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Recette ajout\u00e9e au plan de repas"
           }
         }
       }
