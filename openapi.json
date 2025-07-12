@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Mealie Assistant API for GPT",
-    "version": "1.3.0",
-    "description": "API compl\u00e8te pour l'assistant GPT Mealie : menus, portions, listes de courses."
+    "version": "1.3.1",
+    "description": "API enrichie pour GPT avec liens directs vers l'interface Mealie."
   },
   "servers": [
     {
@@ -33,7 +33,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Liste des recettes"
+            "description": "Liste des recettes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "slug": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string",
+                            "description": "URL vers la recette interne Mealie"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -54,190 +84,51 @@
         ],
         "responses": {
           "200": {
-            "description": "D\u00e9tails d'une recette"
-          }
-        }
-      }
-    },
-    "/shopping-list/items": {
-      "post": {
-        "summary": "Ajouter un ingr\u00e9dient \u00e0 la liste de courses",
-        "operationId": "addItemToShoppingList",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "item": {
-                    "type": "string"
-                  },
-                  "category": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "item"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Ingr\u00e9dient ajout\u00e9"
-          }
-        }
-      }
-    },
-    "/shopping-list/items/bulk": {
-      "post": {
-        "summary": "Ajouter plusieurs ingr\u00e9dients d\u2019un coup",
-        "operationId": "addBulkToShoppingList",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "items": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "item": {
-                          "type": "string"
-                        },
-                        "category": {
-                          "type": "string"
+            "description": "D\u00e9tails d'une recette",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "slug": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string",
+                      "description": "URL vers la recette interne Mealie"
+                    },
+                    "recipeIngredients": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "note": {
+                            "type": "string"
+                          }
                         }
-                      },
-                      "required": [
-                        "item"
-                      ]
+                      }
+                    },
+                    "recipeInstructions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "text": {
+                            "type": "string"
+                          }
+                        }
+                      }
                     }
                   }
-                },
-                "required": [
-                  "items"
-                ]
+                }
               }
             }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Ingr\u00e9dients ajout\u00e9s"
-          }
-        }
-      }
-    },
-    "/meal-plans/{planId}": {
-      "get": {
-        "summary": "Lire un plan de repas complet",
-        "operationId": "getMealPlan",
-        "parameters": [
-          {
-            "name": "planId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Plan de repas r\u00e9cup\u00e9r\u00e9"
-          }
-        }
-      }
-    },
-    "/meal-plans/{planId}/days/{dayId}": {
-      "get": {
-        "summary": "Lire les recettes d\u2019un jour dans le menu",
-        "operationId": "getMealPlanDay",
-        "parameters": [
-          {
-            "name": "planId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "dayId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Recettes du jour r\u00e9cup\u00e9r\u00e9es"
-          }
-        }
-      }
-    },
-    "/meal-plans/{planId}/days/{dayId}/items": {
-      "post": {
-        "summary": "Ajouter une recette \u00e0 un jour du menu",
-        "operationId": "addRecipeToMealPlan",
-        "parameters": [
-          {
-            "name": "planId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "dayId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "recipeId": {
-                    "type": "string"
-                  },
-                  "meal": {
-                    "type": "string",
-                    "enum": [
-                      "breakfast",
-                      "lunch",
-                      "dinner",
-                      "snack"
-                    ]
-                  },
-                  "servings": {
-                    "type": "integer"
-                  }
-                },
-                "required": [
-                  "recipeId",
-                  "meal",
-                  "servings"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Recette ajout\u00e9e au menu"
           }
         }
       }
