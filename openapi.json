@@ -1,9 +1,9 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Mealie GPT Assistant API (Complet)",
-    "version": "1.5.0",
-    "description": "Assistant GPT connect\u00e9 \u00e0 Mealie avec support des menus, listes de courses et recherche intelligente de recettes"
+    "title": "Mealie GPT Assistant API (Finale)",
+    "version": "1.6.0",
+    "description": "Assistant GPT connect\u00e9 \u00e0 Mealie avec menus, courses, recherche intelligente de recettes, et r\u00e9cup\u00e9ration dynamique de l'ID de liste de courses"
   },
   "servers": [
     {
@@ -24,8 +24,7 @@
                 "properties": {
                   "date": {
                     "type": "string",
-                    "format": "date",
-                    "example": "2025-07-13"
+                    "format": "date"
                   },
                   "entryType": {
                     "type": "string",
@@ -65,7 +64,7 @@
     },
     "/households/shopping/items": {
       "post": {
-        "summary": "Ajouter un ingr\u00e9dient \u00e0 la liste de courses",
+        "summary": "Ajouter un ingr\u00e9dient \u00e0 une liste de courses",
         "operationId": "addShoppingItem",
         "requestBody": {
           "required": true,
@@ -74,6 +73,9 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "shoppingListId": {
+                    "type": "string"
+                  },
                   "quantity": {
                     "type": "number",
                     "example": 1
@@ -92,6 +94,7 @@
                   }
                 },
                 "required": [
+                  "shoppingListId",
                   "note"
                 ]
               }
@@ -101,6 +104,40 @@
         "responses": {
           "201": {
             "description": "\u00c9l\u00e9ment ajout\u00e9 \u00e0 la liste de courses"
+          }
+        }
+      }
+    },
+    "/households/shopping/lists": {
+      "get": {
+        "summary": "Lister les listes de courses disponibles",
+        "operationId": "getShoppingLists",
+        "responses": {
+          "200": {
+            "description": "Listes de courses disponibles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -117,7 +154,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Mot-cl\u00e9 \u00e0 rechercher dans les recettes (ex: thon)"
+            "description": "Mot-cl\u00e9 \u00e0 rechercher dans les recettes"
           }
         ],
         "responses": {
@@ -141,7 +178,7 @@
                       },
                       "url": {
                         "type": "string",
-                        "description": "Lien interne vers la recette",
+                        "description": "Lien vers la recette",
                         "example": "https://mealie.aptitech.fr/recipe/riz-au-thon"
                       }
                     }
