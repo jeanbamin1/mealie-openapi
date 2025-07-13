@@ -217,13 +217,13 @@
         }
       }
     },
-    "/households/shopping/lists/{item_id}/recipe/{recipe_id}": {
+    "/api/households/shopping/lists/{item_id}/recipe/{recipe_id}": {
       "post": {
         "tags": [
           "Households: Shopping Lists"
         ],
-        "summary": "Add Single Recipe Ingredients To List",
-        "operationId": "addRecipeIngredientsToList",
+        "summary": "Add ingredients from a single recipe to a shopping list",
+        "operationId": "addSingleRecipeToShoppingList",
         "parameters": [
           {
             "name": "item_id",
@@ -231,7 +231,8 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "The ID of the shopping list"
           },
           {
             "name": "recipe_id",
@@ -239,50 +240,72 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "The ID of the recipe to add"
           }
         ],
         "responses": {
-          "200": {
-            "description": "Successful Response"
-          },
-          "422": {
-            "description": "Validation Error"
-          }
-        }
-      }
-    },
-    "/households/shopping/lists/{item_id}/recipe/{recipe_id}/delete": {
-      "post": {
-        "tags": [
-          "Households: Shopping Lists"
-        ],
-        "summary": "Remove Recipe Ingredients From List",
-        "operationId": "removeRecipeIngredientsFromList",
-        "parameters": [
-          {
-            "name": "item_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
+          "201": {
+            "description": "Ingredients added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "createdItems": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "updatedItems": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "deletedItems": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
             }
           },
-          {
-            "name": "recipe_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response"
-          },
           "422": {
-            "description": "Validation Error"
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "detail": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "loc": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "msg": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
