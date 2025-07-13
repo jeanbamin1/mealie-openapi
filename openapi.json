@@ -1,9 +1,9 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Mealie GPT Assistant API (Finale)",
-    "version": "1.6.0",
-    "description": "Assistant GPT connect\u00e9 \u00e0 Mealie avec menus, courses, recherche intelligente de recettes, et r\u00e9cup\u00e9ration dynamique de l'ID de liste de courses"
+    "title": "Mealie GPT Assistant API (Sans URLs)",
+    "version": "1.6.1",
+    "description": "Assistant GPT connect\u00e9 \u00e0 Mealie avec menus, courses, et recherche de recettes sans g\u00e9n\u00e9ration de liens internes"
   },
   "servers": [
     {
@@ -175,11 +175,6 @@
                       },
                       "slug": {
                         "type": "string"
-                      },
-                      "url": {
-                        "type": "string",
-                        "description": "Lien vers la recette",
-                        "example": "https://mealie.aptitech.fr/recipe/riz-au-thon"
                       }
                     }
                   }
