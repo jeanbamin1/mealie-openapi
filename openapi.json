@@ -3,7 +3,7 @@
   "info": {
     "title": "Mealie GPT Assistant API - Complet",
     "version": "1.7.0",
-    "description": "Ajout/suppression de repas, gestion de liste de courses robuste, distinction claire entre menus et ingrédients."
+    "description": "Ajout/suppression de repas, gestion de liste de courses robuste, distinction claire entre menus et ingr\u00e9dients."
   },
   "servers": [
     {
@@ -57,14 +57,14 @@
         },
         "responses": {
           "201": {
-            "description": "Recette ajoutée au calendrier"
+            "description": "Recette ajout\u00e9e au calendrier"
           }
         }
       }
     },
     "/households/mealplans/{id}": {
       "delete": {
-        "summary": "Supprimer un repas du calendrier à partir de son ID",
+        "summary": "Supprimer un repas du calendrier \u00e0 partir de son ID",
         "operationId": "deleteMealplanItem",
         "parameters": [
           {
@@ -74,19 +74,19 @@
             "schema": {
               "type": "string"
             },
-            "description": "ID du repas à supprimer"
+            "description": "ID du repas \u00e0 supprimer"
           }
         ],
         "responses": {
           "204": {
-            "description": "Repas supprimé"
+            "description": "Repas supprim\u00e9"
           }
         }
       }
     },
     "/households/shopping/items": {
       "post": {
-        "summary": "Ajouter un ingrédient à une liste de courses",
+        "summary": "Ajouter un ingr\u00e9dient \u00e0 une liste de courses",
         "operationId": "addShoppingItem",
         "requestBody": {
           "required": true,
@@ -135,7 +135,7 @@
         },
         "responses": {
           "201": {
-            "description": "Ingrédient ajouté avec succès"
+            "description": "Ingr\u00e9dient ajout\u00e9 avec succ\u00e8s"
           }
         }
       }
@@ -176,7 +176,7 @@
     },
     "/recipes": {
       "get": {
-        "summary": "Rechercher des recettes avec un mot-clé",
+        "summary": "Rechercher des recettes avec un mot-cl\u00e9",
         "operationId": "searchRecipes",
         "parameters": [
           {
@@ -186,7 +186,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Mot-clé à rechercher dans les recettes"
+            "description": "Mot-cl\u00e9 \u00e0 rechercher dans les recettes"
           }
         ],
         "responses": {
@@ -217,13 +217,13 @@
         }
       }
     },
-    "/api/households/shopping/lists/{item_id}/recipe/{recipe_id}": {
+    "/households/shopping/lists/{item_id}/recipe/{recipe_id}": {
       "post": {
         "tags": [
           "Households: Shopping Lists"
         ],
         "summary": "Add Single Recipe Ingredients To List",
-        "operationId": "addRecipeIngredientsToShoppingList",
+        "operationId": "addRecipeIngredientsToList",
         "parameters": [
           {
             "name": "item_id",
@@ -244,24 +244,45 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
+            "description": "Successful Response"
           },
           "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
+            "description": "Validation Error"
+          }
+        }
+      }
+    },
+    "/households/shopping/lists/{item_id}/recipe/{recipe_id}/delete": {
+      "post": {
+        "tags": [
+          "Households: Shopping Lists"
+        ],
+        "summary": "Remove Recipe Ingredients From List",
+        "operationId": "removeRecipeIngredientsFromList",
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
+          },
+          {
+            "name": "recipe_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error"
           }
         }
       }
