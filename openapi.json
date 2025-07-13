@@ -1,9 +1,9 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Mealie GPT Assistant API - Complet",
-    "version": "1.7.0",
-    "description": "Ajout/suppression de repas, gestion de liste de courses robuste, distinction claire entre menus et ingr\u00e9dients."
+    "title": "Mealie Custom API with GPT Constraints",
+    "version": "2.8.0",
+    "description": "Modifi\u00e9 pour assistant GPT : Ajout liste de courses, menu plan, et blocage des liens internes."
   },
   "servers": [
     {
@@ -11,211 +11,47 @@
     }
   ],
   "paths": {
-    "/households/mealplans": {
+    "/households/shopping/lists/{list_id}/recipe/{recipe_id}": {
       "post": {
-        "summary": "Ajouter une recette au calendrier des repas",
-        "operationId": "addToMealplan",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "date": {
-                    "type": "string",
-                    "format": "date"
-                  },
-                  "entryType": {
-                    "type": "string",
-                    "enum": [
-                      "breakfast",
-                      "lunch",
-                      "dinner",
-                      "snack"
-                    ]
-                  },
-                  "recipeId": {
-                    "type": "string",
-                    "format": "uuid"
-                  },
-                  "title": {
-                    "type": "string"
-                  },
-                  "text": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "date",
-                  "entryType",
-                  "recipeId"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Recette ajout\u00e9e au calendrier"
-          }
-        }
-      }
-    },
-    "/households/mealplans/{id}": {
-      "delete": {
-        "summary": "Supprimer un repas du calendrier \u00e0 partir de son ID",
-        "operationId": "deleteMealplanItem",
+        "summary": "Ajoute les ingr\u00e9dients d\u2019une recette \u00e0 une liste de courses",
         "parameters": [
           {
-            "name": "id",
+            "name": "list_id",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string"
-            },
-            "description": "ID du repas \u00e0 supprimer"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Repas supprim\u00e9"
-          }
-        }
-      }
-    },
-    "/households/shopping/items": {
-      "post": {
-        "summary": "Ajouter un ingr\u00e9dient \u00e0 une liste de courses",
-        "operationId": "addShoppingItem",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "quantity": {
-                    "type": "number",
-                    "default": 1
-                  },
-                  "note": {
-                    "type": "string"
-                  },
-                  "shoppingListId": {
-                    "type": "string"
-                  },
-                  "isFood": {
-                    "type": "boolean",
-                    "default": false
-                  },
-                  "disableAmount": {
-                    "type": "boolean",
-                    "default": true
-                  },
-                  "foodId": {
-                    "type": "string",
-                    "nullable": true
-                  },
-                  "unitId": {
-                    "type": "string",
-                    "nullable": true
-                  }
-                },
-                "required": [
-                  "shoppingListId",
-                  "note",
-                  "quantity",
-                  "isFood",
-                  "disableAmount"
-                ]
-              }
             }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Ingr\u00e9dient ajout\u00e9 avec succ\u00e8s"
-          }
-        }
-      }
-    },
-    "/households/shopping/lists": {
-      "get": {
-        "summary": "Lister les listes de courses disponibles",
-        "operationId": "getShoppingLists",
-        "responses": {
-          "200": {
-            "description": "Listes de courses disponibles",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string"
-                          },
-                          "name": {
-                            "type": "string"
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/recipes": {
-      "get": {
-        "summary": "Rechercher des recettes avec un mot-cl\u00e9",
-        "operationId": "searchRecipes",
-        "parameters": [
+          },
           {
-            "name": "search",
-            "in": "query",
+            "name": "recipe_id",
+            "in": "path",
             "required": true,
             "schema": {
               "type": "string"
-            },
-            "description": "Mot-cl\u00e9 \u00e0 rechercher dans les recettes"
+            }
           }
         ],
         "responses": {
-          "200": {
-            "description": "Liste des recettes",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string"
-                      },
-                      "name": {
-                        "type": "string"
-                      },
-                      "slug": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              }
-            }
+          "201": {
+            "description": "Ingr\u00e9dients ajout\u00e9s avec succ\u00e8s"
+          },
+          "422": {
+            "description": "Erreur de validation"
+          },
+          "500": {
+            "description": "Erreur serveur"
           }
         }
       }
+    }
+  },
+  "x-gpt-instructions": {
+    "noInternalLinks": true,
+    "behavior": {
+      "onMealAddFail": "Fallback vers l\u2019ajout d\u2019ingr\u00e9dients dans la liste de courses",
+      "avoidRecipeDuplicatesInPlanning": true,
+      "greeting": "Souhaites-tu que je planifie un autre repas ?"
     }
   }
 }
