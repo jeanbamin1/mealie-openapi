@@ -3,7 +3,7 @@
   "info": {
     "title": "Mealie GPT Assistant API - Complet",
     "version": "1.7.0",
-    "description": "Ajout/suppression de repas, gestion de liste de courses robuste, distinction claire entre menus et ingr\u00e9dients."
+    "description": "Ajout/suppression de repas, gestion de liste de courses robuste, distinction claire entre menus et ingrédients."
   },
   "servers": [
     {
@@ -57,14 +57,14 @@
         },
         "responses": {
           "201": {
-            "description": "Recette ajout\u00e9e au calendrier"
+            "description": "Recette ajoutée au calendrier"
           }
         }
       }
     },
     "/households/mealplans/{id}": {
       "delete": {
-        "summary": "Supprimer un repas du calendrier \u00e0 partir de son ID",
+        "summary": "Supprimer un repas du calendrier à partir de son ID",
         "operationId": "deleteMealplanItem",
         "parameters": [
           {
@@ -74,19 +74,19 @@
             "schema": {
               "type": "string"
             },
-            "description": "ID du repas \u00e0 supprimer"
+            "description": "ID du repas à supprimer"
           }
         ],
         "responses": {
           "204": {
-            "description": "Repas supprim\u00e9"
+            "description": "Repas supprimé"
           }
         }
       }
     },
     "/households/shopping/items": {
       "post": {
-        "summary": "Ajouter un ingr\u00e9dient \u00e0 une liste de courses",
+        "summary": "Ajouter un ingrédient à une liste de courses",
         "operationId": "addShoppingItem",
         "requestBody": {
           "required": true,
@@ -135,7 +135,7 @@
         },
         "responses": {
           "201": {
-            "description": "Ingr\u00e9dient ajout\u00e9 avec succ\u00e8s"
+            "description": "Ingrédient ajouté avec succès"
           }
         }
       }
@@ -176,7 +176,7 @@
     },
     "/recipes": {
       "get": {
-        "summary": "Rechercher des recettes avec un mot-cl\u00e9",
+        "summary": "Rechercher des recettes avec un mot-clé",
         "operationId": "searchRecipes",
         "parameters": [
           {
@@ -186,7 +186,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Mot-cl\u00e9 \u00e0 rechercher dans les recettes"
+            "description": "Mot-clé à rechercher dans les recettes"
           }
         ],
         "responses": {
@@ -222,8 +222,8 @@
         "tags": [
           "Households: Shopping Lists"
         ],
-        "summary": "Add ingredients from a single recipe to a shopping list",
-        "operationId": "addSingleRecipeToShoppingList",
+        "summary": "Add Single Recipe Ingredients To List",
+        "operationId": "addRecipeIngredientsToShoppingList",
         "parameters": [
           {
             "name": "item_id",
@@ -231,8 +231,7 @@
             "required": true,
             "schema": {
               "type": "string"
-            },
-            "description": "The ID of the shopping list"
+            }
           },
           {
             "name": "recipe_id",
@@ -240,37 +239,16 @@
             "required": true,
             "schema": {
               "type": "string"
-            },
-            "description": "The ID of the recipe to add"
+            }
           }
         ],
         "responses": {
-          "201": {
-            "description": "Ingredients added successfully",
+          "200": {
+            "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "createdItems": {
-                      "type": "array",
-                      "items": {
-                        "type": "object"
-                      }
-                    },
-                    "updatedItems": {
-                      "type": "array",
-                      "items": {
-                        "type": "object"
-                      }
-                    },
-                    "deletedItems": {
-                      "type": "array",
-                      "items": {
-                        "type": "object"
-                      }
-                    }
-                  }
+                  "type": "object"
                 }
               }
             }
@@ -280,29 +258,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "detail": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "loc": {
-                            "type": "array",
-                            "items": {
-                              "type": "string"
-                            }
-                          },
-                          "msg": {
-                            "type": "string"
-                          },
-                          "type": {
-                            "type": "string"
-                          }
-                        }
-                      }
-                    }
-                  }
+                  "type": "object"
                 }
               }
             }
