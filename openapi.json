@@ -216,6 +216,76 @@
           }
         }
       }
+    },
+    "/households/shopping/lists/{item_id}/recipe/{recipe_id}": {
+      "post": {
+        "tags": [
+          "Households: Shopping Lists"
+        ],
+        "summary": "Add Single Recipe Ingredients To List",
+        "operationId": "addRecipeIngredientsToList",
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "recipe_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error"
+          }
+        }
+      }
+    },
+    "/households/shopping/lists/{item_id}/recipe/{recipe_id}/delete": {
+      "post": {
+        "tags": [
+          "Households: Shopping Lists"
+        ],
+        "summary": "Remove Recipe Ingredients From List",
+        "operationId": "removeRecipeIngredientsFromList",
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "recipe_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error"
+          }
+        }
+      }
     }
   }
 }
