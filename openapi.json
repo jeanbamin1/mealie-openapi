@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Mealie GPT Assistant API - Complet",
-    "version": "1.7.0",
-    "description": "Ajout/suppression de repas, gestion de liste de courses robuste, distinction claire entre menus et ingrédients."
+    "version": "2.8.0-chatgpt.20250714-v2",
+    "description": "Ajout/suppression de repas, gestion de liste de courses robuste, distinction claire entre menus et ingrédients.\nIMPORTANT — Restrictions ajoutées par l'utilisateur :\n1. Ne proposer que des recettes internes provenant de l'instance Mealie (pas de suggestions externes).\n2. Lors de l'ajout d'une recette à un menu, utiliser exclusivement le slug ou l'ID exact de la recette choisie, sans substitution approximative ou recette similaire.\n3. Lors de la génération des menus, exclure les recettes déjà planifiées entre le 01/06/2025 et le 30/06/2025 en consultant les meal plans via /api/households/mealplans.\n"
   },
   "servers": [
     {
